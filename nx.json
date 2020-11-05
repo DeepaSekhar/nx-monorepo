@@ -19,12 +19,7 @@
       "runner": "@nrwl/nx-cloud",
       "options": {
         "accessToken": "MDBkYjRiOWQtOWJjOC00MTcyLTlmMTQtYzdlNjY2NWQ5ZTAxfHJlYWQtd3JpdGU=",
-        "cacheableOperations": [
-          "build",
-          "test",
-          "lint",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "test", "lint", "e2e"],
         "canTrackAnalytics": false,
         "showUsageWarnings": true
       }
@@ -36,9 +31,14 @@
     },
     "nx-monorepo-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "nx-monorepo"
-      ]
+      "implicitDependencies": ["nx-monorepo"]
+    },
+    "angular-app": {
+      "tags": []
+    },
+    "angular-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["angular-app"]
     }
   }
 }
