@@ -1,0 +1,175 @@
+{
+  "version": 1,
+  "projects": {
+    "nx-monorepo": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/nx-monorepo",
+      "sourceRoot": "apps/nx-monorepo/src",
+      "prefix": "nx-monorepo",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/nx-monorepo",
+            "index": "apps/nx-monorepo/src/index.html",
+            "main": "apps/nx-monorepo/src/main.ts",
+            "polyfills": "apps/nx-monorepo/src/polyfills.ts",
+            "tsConfig": "apps/nx-monorepo/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/nx-monorepo/src/favicon.ico",
+              "apps/nx-monorepo/src/assets"
+            ],
+            "styles": ["apps/nx-monorepo/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/nx-monorepo/src/environments/environment.ts",
+                  "with": "apps/nx-monorepo/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "nx-monorepo:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "nx-monorepo:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "nx-monorepo:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/nx-monorepo/tsconfig.app.json",
+              "apps/nx-monorepo/tsconfig.spec.json",
+              "apps/nx-monorepo/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/nx-monorepo/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/nx-monorepo/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "nx-monorepo-e2e": {
+      "root": "apps/nx-monorepo-e2e",
+      "sourceRoot": "apps/nx-monorepo-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/nx-monorepo-e2e/cypress.json",
+            "tsConfig": "apps/nx-monorepo-e2e/tsconfig.e2e.json",
+            "devServerTarget": "nx-monorepo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "nx-monorepo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/nx-monorepo-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/nx-monorepo-e2e/**/*"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "nx-monorepo"
+}
